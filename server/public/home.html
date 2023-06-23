@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>hello-GraphQL demo 演示</h1>
+
+ <!-- http://localhost:3000/graphql  格式
+ # query {
+   #   getNowplayingList {
+   #     id,
+   #     name
+   #   }
+   # }
+  
+   mutation {
+     # createFilm(filmInput:{
+     #   name:"1",
+     #   poster:"http://1",
+     #   price:100
+     # }) {
+     #   id,
+     #   name
+     # }
+  
+     # updateFilm(id:"649542e4fc8443f58e3791f1",filmInput:{
+     #   name:"hello修改"
+     # }) {
+     #   id
+     # }
+    
+     deleteFilm(id:"649542ecfc8443f58e3791f3")
+   } -->
+
+  <button onclick="getData()">获取数据</button>
+  <button onclick="createData()">创建数据</button>
+  <button onclick="updateData()">更新数据</button>
+  <button onclick="deleteData()">删除数据</button>
+
+  <script>
+    function getData() {
+      var myquery = `
+      query {
+        getNowplayingList {
+          id,
+          name
+        }
+      }
+      `
+
+      fetch("/graphql",{
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json; charset=utf-8",
+          "Accept": "application/json"
+        },
+        body:JSON.stringify({
+          query:myquery
+        })
+      }).then(res=>res.json()).then(res =>{
+        console.log(res);
+      })
+    }
+    function createData() {
+      var myquery = `
+      mutation ($input: FilmInput) {
+        createFilm(filmInput:$input) {
+          id,
+          name
+        }
+      }
+      `
+
+      fetch("/graphql",{
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json; charset=utf-8",
+          "Accept": "application/json"
+        },
+        body:JSON.stringify({
+          query:myquery,
+          variables:{  //变量 $
+            input:{    //变量 $input
+              name: "666",
+              price:60,
+              poster:"http://666"
+            }
+          }
+        })
+      }).then(res=>res.json()).then(res =>{
+        console.log(res);
+      })
+    }
+    function updateData() {
+      // 类型要与后端一致，少一个！号都不行
+      var myquery = `
+      mutation ($id: String!, $input: FilmInput) {
+        updateFilm(id: $id,filmInput: $input) {
+          id,
+          name
+        }
+      }
+      `
+
+      fetch("/graphql",{
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json; charset=utf-8",
+          "Accept": "application/json"
+        },
+        body:JSON.stringify({
+          query:myquery,
+          variables:{  //变量 $
+            id: "649542e4fc8443f58e3791f1", //变量 $id
+            input:{    //变量 $input
+              name: "我是修改后的值",
+            }
+          }
+        })
+      }).then(res=>res.json()).then(res =>{
+        console.log(res);
+      })
+    }
+    function deleteData() {
+      var myquery = `
+      mutation ($id: String!) {
+        deleteFilm(id: $id)
+      }
+      `
+
+      fetch("/graphql",{
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json; charset=utf-8",
+          "Accept": "application/json"
+        },
+        body:JSON.stringify({
+          query:myquery,
+          variables:{  //变量 $
+            id: "6495652bd159acb55e1705a7", //变量 $id
+          }
+        })
+      }).then(res=>res.json()).then(res =>{
+        console.log(res);
+      })
+    }
+  </script>
+
+</body>
+</html>
