@@ -35,7 +35,7 @@ var Schema = buildSchema(`
   }
 
   type Query {
-    getNowplayingList: [Film],
+    getNowplayingList(id: String): [Film],
   }
 
   type Mutation {
@@ -48,8 +48,11 @@ var Schema = buildSchema(`
 
 // 执行的操作 处理器
 const root = {
-  // 查询
-  getNowplayingList(){
+  // 查询单个或者所有
+  getNowplayingList({id}){
+    if(id){
+      return FilmModel.find({_id: id})
+    }
     return FilmModel.find()
   },
   // 创建数据
@@ -119,6 +122,6 @@ app.use('/graphql', graphqlHTTP({
 // 配置静态资源文件夹
 app.use(express.static('public'));
 
-app.listen(3000, () => {
-  console.log('http://localhost:3000/home');
+app.listen(3003, () => {
+  console.log('http://localhost:3003/graphql');
 });
