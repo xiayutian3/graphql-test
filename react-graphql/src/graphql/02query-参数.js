@@ -56,7 +56,7 @@ class QueryComponent extends Component {
       <div>
         查询单个:<input type="text" onChange={this.changValue} />
         <Query query={this.query} variables={{ id: this.state.id }}>
-          {({ loading, error, data }) => {
+          {({ loading, error, data, refetch }) => {
             // 因为是异步组件，所以会执行两次
             // console.log("data: ", data);
             return loading ? (

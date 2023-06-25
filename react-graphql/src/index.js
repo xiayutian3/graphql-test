@@ -3,7 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 // import App from './App';
 // import App from "./graphql/01query.js"
-import App from "./graphql/02query-参数"
+// import App from "./graphql/02query-参数"
+// import App from "./graphql/03mutation"
+// import App from "./graphql/04mutation-update"
+import App from "./graphql/05mutation-delete"
+
+
 import reportWebVitals from './reportWebVitals';
 
 // 18

@@ -45,7 +45,7 @@ class QueryComponent extends Component {
   render() {
     return (
       <Query query={this.query}>
-        {({ loading, error, data }) => {
+        {({ loading, error, data,refetch }) => {
           // 因为是异步组件，所以会执行两次
           // console.log("data: ", data);
           return loading ? (
